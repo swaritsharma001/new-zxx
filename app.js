@@ -10,7 +10,7 @@ import cookie from "cookie-parser"
 const __dirname = path.resolve();
 const app = express();
 app.use(cookie())
-app.use(express.static(path.join(__dirname, "dist")))
+app.use(express.static(path.join(__dirname, "front")))
 import ConnectToDb from "./middle/connect.js"
 // Enable CORS
 //Wake up
@@ -42,7 +42,9 @@ ConnectToDb()
 app.use(express.json());
 app.use("/blog", router)
 app.use("/api/auth", authRouter)
-
+app.get("/*", (req, res)=>{
+  res.sendFile(path.join(__dirname, "front", "index.html"))
+})
 // Start the server
 app.listen(3000, () => {
   console.log("Server is running on port 3000")
